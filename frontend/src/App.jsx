@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
+import Users from './Users';
 
 const API = '/api/todos';
 
 export default function App() {
+  const [tab, setTab] = useState('todos');
   const [todos, setTodos] = useState([]);
   const [text, setText] = useState('');
   const [loading, setLoading] = useState(true);
@@ -59,7 +61,24 @@ export default function App() {
 
   const remaining = todos.filter((t) => !t.completed).length;
 
+  if (tab === 'users') {
+    return (
+      <>
+        <nav className="nav-tabs">
+          <button onClick={() => setTab('todos')}>Todos</button>
+          <button className="active">Users</button>
+        </nav>
+        <Users />
+      </>
+    );
+  }
+
   return (
+    <>
+    <nav className="nav-tabs">
+      <button className="active">Todos</button>
+      <button onClick={() => setTab('users')}>Users</button>
+    </nav>
     <div className="app">
       <h1>Todo List</h1>
 
@@ -106,5 +125,6 @@ export default function App() {
 
       <p className="count">{remaining} item{remaining !== 1 ? 's' : ''} remaining</p>
     </div>
+    </>
   );
 }
